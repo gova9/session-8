@@ -1,0 +1,33 @@
+A = LOAD 'data' as (f1:chararray, f2:chararray, f3:int);
+
+concat:
+X = FOREACH A GENERATE CONCAT(f2,f3);
+
+TOKENIZE:
+X = FOREACH A GENERATE TOKENIZE(f1);
+
+SUM
+B = GROUP A BY owner;
+
+X = FOREACH B GENERATE group, SUM(A.f3);
+
+MIN
+X = FOREACH B GENERATE group, MIN(A.f3);
+
+MAX
+X = FOREACH B GENERATE group, MIN(A.f3);
+
+limit
+X = limit B 2;
+
+STORE
+a = STORE B INTO 'output' using PigStorage(',');
+
+DISTINCT
+X = DISTINCT f1;
+
+Flatten
+X = FOREACH B GENERATE FLATTEN(group)
+
+IsEmpty
+isempty_data = filter A by IsEmpty(f1);
